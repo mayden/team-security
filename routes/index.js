@@ -10,7 +10,10 @@ router.get('/', function(req, res, next) {
 
 /* login */
 router.post('/login', function(req, res, next) {
-  res.send('checking something');
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
+  res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
+  res.send('POST WORKS');
 });
 
 /* login */
