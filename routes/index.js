@@ -12,5 +12,9 @@ router.post('/login', function(req, res, next) {
   res.send('checking something');
 });
 
+/* login */
+router.get('/login', function(req, res, next) {
+  res.send('LOGIN GET EXAMPLE');
+});
 
 module.exports = router;
