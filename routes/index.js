@@ -14,7 +14,8 @@ router.post('/login', function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
   res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
 
-  res.send('Successfully connected to the server.');
+  res.send('Successfully connected  to the server.');
+  console.log(request.body);
 });
 
 /* login */

@@ -3,8 +3,8 @@ class of securityForm, holds all the functions that needed to make the connectio
  */
 var securityForm = {
     // hold the url of the server. Is where we are going to send the credentials.
-    server_url : "https://project-security.herokuapp.com/login",
-
+    //server_url : "https://project-security.herokuapp.com/login",
+    server_url : "http://localhost:3000/login",
     send: function(username, password) {
 
         var http = new XMLHttpRequest();
