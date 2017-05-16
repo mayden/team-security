@@ -17,6 +17,7 @@ router.post('/login', function(req, res, next) {
   res.send('Successfully connected  to the server.');
   console.log(req.body.username);
     console.log(req.body.password);
+    console.log(res.statusCode);
 });
 
 /* login */
