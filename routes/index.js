@@ -20,6 +20,8 @@ router.post('/login', function(req, res, next) {
 /* login */
 router.get('/login', function(req, res, next) {
   res.send('LOGIN GET EXAMPLE');
+  window.alert(req);
+
 });
 
 module.exports = router;
