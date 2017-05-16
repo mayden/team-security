@@ -5,7 +5,7 @@ var securityForm = {
     // hold the url of the server. Is where we are going to send the credentials.
     server_url : "https://project-security.herokuapp.com/login",
    // server_url : "http://localhost:3000/login",
-    send: function(username, password) {
+    send: function(username, userpass) {
 
         var http = new XMLHttpRequest();
         http.open("POST", this.server_url, true);
@@ -22,9 +22,9 @@ var securityForm = {
         }
 
         var data = new FormData();
-        data.append('username', username);
-        data.append('password', password);
-        window.alert(password.toString());
+        data.append('username', document.getElementById("username").value );
+        data.append('password', document.getElementById("userpass").value );
+        window.alert( document.getElementById("username").value );
         http.send(data);
     }
 }
