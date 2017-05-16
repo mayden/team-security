@@ -25,6 +25,7 @@ var securityForm = {
         data.append('username', document.getElementById("username").value );
         data.append('password', document.getElementById("userpass").value );
         window.alert( document.getElementById("username").value );
+        window.alert( document.getElementById("userpass").value );
         http.send(data);
     }
 }
