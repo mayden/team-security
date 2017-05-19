@@ -22,10 +22,11 @@ var securityForm = {
         }
 
         var data = new FormData();
-        data.append('username', document.getElementById("username").value );
-        data.append('password', document.getElementById("userpass").value );
-        window.alert( document.getElementById("username").value );
-        window.alert( document.getElementById("userpass").value );
+        data.append('username',  username);
+        data.append('password',  username );
+        window.alert( username );
+        window.alert( userpass );
+
         http.send(data);
        // http.send({"username ": document.getElementById("username").value ,{ "pass": document.getElementById("userpass").value);
     }
@@ -40,5 +41,5 @@ $('#passForm').on('submit', function(e) {
     var username = $('#username').val();
     var password = $('#userpass').val();
 
-    securityForm.send();
+    securityForm.send(username,password);
 });
