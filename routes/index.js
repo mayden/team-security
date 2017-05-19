@@ -1,8 +1,12 @@
 var express = require('express');
+var bodyParser = require('body-parser');
 var MongoClient = require('mongodb').MongoClient;
+// create our app
 var router = express.Router();
 
 
+// instruct the app to use the `bodyParser()` middleware for all routes
+router.use(bodyParser());
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
