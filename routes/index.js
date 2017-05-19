@@ -5,8 +5,8 @@ var MongoClient = require('mongodb').MongoClient;
 var router = express.Router();
 
 // instruct the app to use the `bodyParser()` middleware for all routes
-//router.use(bodyParser());
-router.use(bodyParser.toString()); // support json encoded bodies
+router.use(bodyParser());
+//router.use(bodyParser.toString()); // support json encoded bodies
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
