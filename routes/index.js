@@ -6,8 +6,7 @@ var router = express.Router();
 
 // instruct the app to use the `bodyParser()` middleware for all routes
 router.use(bodyParser());
-router.use(bodyParser.json()); // support json encoded bodies
-router.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+router.use(bodyParser.toString()); // support json encoded bodies
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -23,8 +22,7 @@ router.post('/login', function(req, res, next) {
 
     res.send('Successfully connected  to the server.');
     console.log(req.body);
-    console.log(req.body.username);
-    console.log(req.body);
+    //console.log(req.body.username);
     console.log(req.username);
     console.log(res.statusCode);
      MongoClient.connect("mongodb://manager:1234@ds139801.mlab.com:39801/heroku_5277wf1z", function(err, db) {
