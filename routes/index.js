@@ -21,7 +21,7 @@ router.post('/login', function(req, res, next) {
     res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
 
     res.send('Successfully connected  to the server.');
-    console.log(req.body.data);
+    console.log(req.body);
     console.log(req.params);
     console.log(req.username);
     console.log(res.statusCode);
