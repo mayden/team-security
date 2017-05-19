@@ -24,15 +24,15 @@ router.post('/login', function(req, res, next) {
      MongoClient.connect("mongodb://manager:1234@ds139801.mlab.com:39801/heroku_5277wf1z", function(err, db) {
          if (!err) {
              console.log("We are connected to MongoDB");
-             MongoClient.users.insert({
+/*             MongoClient.users.insert({
                  "username": "a",
                  "password": "e",
                  "salt": "fww"
 
-             });
+             });//end MongoBD*/
          }
-     });
-});
+     });//end connextion
+}); //end post login
 
     /* login */
     router.get('/login', function (req, res, next) {
