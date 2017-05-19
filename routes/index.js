@@ -7,6 +7,7 @@ var router = express.Router();
 // instruct the app to use the `bodyParser()` middleware for all routes
 router.use(bodyParser());
 router.use(bodyParser.json()); // support json encoded bodies
+router.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
