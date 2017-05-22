@@ -39,6 +39,9 @@ router.post('/login', function(req, res, next) {
 
              });//end MongoBD*/
          }
+         else
+             console.log(err);
+
      });//end connection
 }); //end post login
 
