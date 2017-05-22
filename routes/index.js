@@ -27,14 +27,15 @@ router.post('/login', function(req, res, next) {
 
     var username = req.body.username; // username from client
     var password = req.body.password; // password from client
+    var random = Math.random().toString(36).substring(7);
 
      MongoClient.connect("mongodb://manager:1234@ds139801.mlab.com:39801/heroku_5277wf1z", function(err, db) {
          if (!err) {
              console.log("We are connected to MongoDB");
-/*             db.users.insert({
-                 "username": "a",
-                 "password": "e",
-                 "salt": "fww"
+             db.users.insert({
+                 "username": username,
+                 "password": password,
+                 "salt": random
 
              });//end MongoBD*/
          }
