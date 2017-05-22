@@ -11,7 +11,10 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index',
-      { title: 'Express' });
+      {
+          title: 'Project Security'
+      }
+  );
 });
 
 /* login */
@@ -21,10 +24,10 @@ router.post('/login', function(req, res, next) {
     res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
 
     res.send('Successfully connected  to the server.');
-    console.log(req.query.username);
-    //console.log(req.body.username);
-    console.log(req.username);
-    console.log(res.statusCode);
+
+    var username = req.body.username; // username from client
+    var password = req.body.password; // password from client
+
      MongoClient.connect("mongodb://manager:1234@ds139801.mlab.com:39801/heroku_5277wf1z", function(err, db) {
          if (!err) {
              console.log("We are connected to MongoDB");
@@ -41,8 +44,6 @@ router.post('/login', function(req, res, next) {
     /* login */
     router.get('/login', function (req, res, next) {
         res.send('LOGIN GET EXAMPLE');
-        window.alert(req);
-
     });
 
     module.exports = router;
