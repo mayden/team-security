@@ -4,9 +4,6 @@ var MongoClient = require('mongodb').MongoClient;
 // create our app
 var router = express.Router();
 
-// instruct the app to use the `bodyParser()` middleware for all routes
-//router.use(bodyParser());
-//router.use(bodyParser.toString()); // support json encoded bodies
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -23,26 +20,24 @@ router.post('/login', function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
     res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
 
-    res.send('Successfully connected  to the server.');
+    var userObject = {
+        "username" : req.body.username,
+        "password" : req.body.password,
+        "salt" : Math.random().toString(36).substring(5)
+    };
 
-    var username = req.body.username; // username from client
-    var password = req.body.password; // password from client
-    var random = Math.random().toString(36).substring(7);
+    var db = req.db;
+    var users = db.get('users');
 
-     MongoClient.connect("mongodb://manager:1234@ds139801.mlab.com:39801/heroku_5277wf1z", function(err, db) {
-         if (!err) {
-             console.log("We are connected to MongoDB");
-             db.users.insert({
-                 "username": username,
-                 "password": password,
-                 "salt": random
+    users.insert(userObject, function (err, doc) {
+        if (err) {
+            res.send("There was a problem adding the information to the database.");
+        }
+        else {
+            res.send('Successfully register to our DB.');
+        }
+    });
 
-             });//end MongoBD*/
-         }
-         else
-             console.log(err);
-
-     });//end connection
 }); //end post login
 
     /* login */

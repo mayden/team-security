@@ -4,9 +4,14 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongo = require('mongodb');
+var monk = require('monk');
 
 var index = require('./routes/index');
 
+// Connection URL. This is where your mongodb server is running.
+var url = 'mongodb://manager:1234@ds139801.mlab.com:39801/heroku_5277wf1z';
+var db = monk(url);
 
 var app = express();
 
@@ -21,6 +26,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Make our db accessible to our router
+app.use(function(req,res,next){
+  req.db = db;
+  next();
+});
 
 app.use('/', index);
 
