@@ -29,7 +29,7 @@ router.post('/login', function(req, res, next) {
     var db = req.db;
     var users = db.get('users');
     //have the user in the server
-    users.search(userObject, function (err, doc) {
+    users.select(userObject, function (err, doc) {
         if (err) {
             res.send("test1");
         }
