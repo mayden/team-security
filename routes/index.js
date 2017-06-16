@@ -29,12 +29,12 @@ router.post('/login', function(req, res, next) {
     var db = req.db;
     var users = db.get('users');
     //have the user in the server
-    users.find(userObject).toArray(function(err, result) {
+    users.find({}).toArray(function(err, result) {
         if (err) {
             res.send("test1");
         }
         else {
-            res.send('test2');
+            res.send(result);
         }
     });
     users.insert(userObject, function (err, doc) {
