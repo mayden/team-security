@@ -1,6 +1,6 @@
 var express = require('express');
-var bodyParser = require('body-parser');
-var MongoClient = require('mongodb').MongoClient;
+// var bodyParser = require('body-parser');
+// var MongoClient = require('mongodb').MongoClient;
 // create our app
 var router = express.Router();
 
@@ -28,7 +28,15 @@ router.post('/login', function(req, res, next) {
 
     var db = req.db;
     var users = db.get('users');
-
+    //have the user in the server
+    users.search(userObject, function (err, doc) {
+        if (err) {
+            res.send("test1");
+        }
+        else {
+            res.send('test2');
+        }
+    });
     users.insert(userObject, function (err, doc) {
         if (err) {
             res.send("There was a problem adding the information to the database.");
