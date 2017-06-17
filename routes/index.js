@@ -35,7 +35,7 @@ router.post('/login', function(req, res, next) {
             success = false;
         }
         else {
-            res.send('Successfully register to our DB.');
+            //res.send('Successfully register to our DB.');
             success = true;
 
         }
