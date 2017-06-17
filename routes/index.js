@@ -36,6 +36,7 @@ router.post('/login', function(req, res, next) {
         }
         else {
             //res.send('Successfully register to our DB.');
+            console.log('Successfully register to our DB.');
             success = true;
 
         }
@@ -43,10 +44,12 @@ router.post('/login', function(req, res, next) {
     next();
 
 }, function (req, res, next) {
+    console.log('test1');
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
     res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
     if (success) {
+        console.log('test2');
         var userObject = {
             "username": req.body.username,
             "password": req.body.password,
@@ -60,7 +63,7 @@ router.post('/login', function(req, res, next) {
         console.log(userId);
         var id = userId._id;
         console.log(id);
-        res.send(id);
+       // res.send(id);
         // res.send(userId);
     }
 }); //end post login
