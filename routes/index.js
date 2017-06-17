@@ -36,7 +36,7 @@ router.post('/login', function(req, res, next) {
         else {
             //res.send('Successfully register to our DB.');
             //save user id in server
-            var userId = users.findOne(userObject);
+            var userId = users.find();
             res.send(userId);
             var id = userId._id;
            // res.send(userId);
