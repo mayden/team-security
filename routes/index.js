@@ -46,14 +46,16 @@ router.post('/login', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
     res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
-    var userObject = {
-        "username": req.body.username,
-        "password": req.body.password,
-        "salt": Math.random().toString(36).substring(5)
-    };
     if (success) {
+        var userObject = {
+            "username": req.body.username,
+            "password": req.body.password,
+            "salt": Math.random().toString(36).substring(5)
+        };
+
         //save user id in server
-        var userId = users.find(userObject).toString();
+        var users = db.get('users');
+        var userId = users.find();
         //res.send(userId);
         console.log(userId);
         var id = userId._id;
