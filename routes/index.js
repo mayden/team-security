@@ -32,7 +32,7 @@ router.post('/login', function(req, res, next) {
     users.findOne({ "username": req.body.username,
         "password": req.body.password}).then(function(result) {
         console.log(result); //normalReturn
-        if (result === {}||result === undefined)
+        if (result === {}||result===null||result === undefined)
         {
             users.insert(userObject, function (err, doc) {
                 if (err) {
