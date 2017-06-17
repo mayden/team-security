@@ -34,7 +34,7 @@ router.post('/login', function(req, res, next) {
             res.send("There was a problem adding the information to the database.");
         }
         else {
-            res.send('Successfully register to our DB.');
+            //res.send('Successfully register to our DB.');
             //save user id in server
             var userId = users.findOne(userObject);
             var id = userId._id;
