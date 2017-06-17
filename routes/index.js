@@ -29,7 +29,8 @@ router.post('/login', function(req, res, next) {
     var db = req.db;
     var users = db.get('users');
     //have the user in the server
-    users.find(userObject).then(function(result) {
+    users.find({ "username": req.body.username,
+        "password": req.body.password}).then(function(result) {
         console.log(result); //normalReturn
     });
     users.insert(userObject, function (err, doc) {
@@ -62,8 +63,9 @@ router.post('/login', function(req, res, next) {
     //save user id in server
     var db = req.db;
     var users = db.get('users');
-    var userId = users.find().then(function(result) {
+    var userId = users.findOne().then(function(result) {
         console.log(result); //normalReturn
+        console.log(result._id); //normalReturn
     });
     //res.send(userId);
     console.log(userId);
