@@ -4,7 +4,7 @@ var express = require('express');
 // create our app
 var router = express.Router();
 
-
+var user_id = "";
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index',
@@ -29,7 +29,7 @@ router.post('/login', function(req, res, next) {
     var db = req.db;
     var users = db.get('users');
     //have the user in the server
-    users.find({ "username": req.body.username,
+    users.findOne({ "username": req.body.username,
         "password": req.body.password}).then(function(result) {
         console.log(result); //normalReturn
         if (result === {}||result === undefined)
@@ -39,19 +39,14 @@ router.post('/login', function(req, res, next) {
                     res.send("There was a problem adding the information to the database.");
 
                 }
-                else {
-                    res.send('Successfully register to our DB.');
-                    console.log('Successfully register to our DB.');
-                    next();
 
-                }
             });
         }
-        else {
-            res.send('Successfully register to our DB.');
-            console.log('Successfully register to our DB.');
-            next();
-        }
+
+        res.send('Successfully register to our DB.');
+        console.log('Successfully register to our DB.');
+        user_id = result._id;
+
     });
 
 
