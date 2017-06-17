@@ -35,13 +35,14 @@ router.post('/login', function(req, res, next) {
         }
         else {
             res.send('Successfully register to our DB.');
+            //save user id in server
+            var userId = users.findOne(userObject);
+            var id = userId._id;
+            res.send(userId);
         }
     });
 
-    //save user id in server
-    var userId = users.findOne(userObject);
-    var id = userId._id;
-    res.send(userId);
+
 }); //end post login
 
     /* login */
