@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
       }
   );
 });
-var success;
+
 /* login */
 router.post('/login', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -32,23 +32,23 @@ router.post('/login', function(req, res, next) {
     users.insert(userObject, function (err, doc) {
         if (err) {
             res.send("There was a problem adding the information to the database.");
-            success = false;
+
         }
         else {
             //res.send('Successfully register to our DB.');
             console.log('Successfully register to our DB.');
-            success = true;
+            next();
 
         }
     });
-    next();
+
 
 }, function (req, res, next) {
     console.log('test1');
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
     res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
-    if (success) {
+
         console.log('test2');
         var userObject = {
             "username": req.body.username,
@@ -65,7 +65,7 @@ router.post('/login', function(req, res, next) {
         console.log(id);
        // res.send(id);
         // res.send(userId);
-    }
+
 }); //end post login
 
     /* login */
