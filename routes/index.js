@@ -50,6 +50,7 @@ router.post('/login', function(req, res, next) {
         //save user id in server
         var userId = users.find().toString();
         res.send(userId);
+        console.log(userId);
         var id = userId._id;
         // res.send(userId);
     }
