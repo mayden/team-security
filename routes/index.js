@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
       }
   );
 });
-
+var success;
 /* login */
 router.post('/login', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -21,9 +21,9 @@ router.post('/login', function(req, res, next) {
     res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
 
     var userObject = {
-        "username" : req.body.username,
-        "password" : req.body.password,
-        "salt" : Math.random().toString(36).substring(5)
+        "username": req.body.username,
+        "password": req.body.password,
+        "salt": Math.random().toString(36).substring(5)
     };
 
     var db = req.db;
@@ -32,18 +32,27 @@ router.post('/login', function(req, res, next) {
     users.insert(userObject, function (err, doc) {
         if (err) {
             res.send("There was a problem adding the information to the database.");
+            success = false;
         }
         else {
-            //res.send('Successfully register to our DB.');
-            //save user id in server
-            var userId = users.find().toString();
-            res.send(userId);
-            var id = userId._id;
-           // res.send(userId);
+            res.send('Successfully register to our DB.');
+            success = true;
+
         }
     });
+    next();
 
-
+}, function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
+    res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
+    if (success) {
+        //save user id in server
+        var userId = users.find().toString();
+        res.send(userId);
+        var id = userId._id;
+        // res.send(userId);
+    }
 }); //end post login
 
     /* login */
