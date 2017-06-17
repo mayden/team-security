@@ -32,19 +32,28 @@ router.post('/login', function(req, res, next) {
     users.find({ "username": req.body.username,
         "password": req.body.password}).then(function(result) {
         console.log(result); //normalReturn
-    });
-    users.insert(userObject, function (err, doc) {
-        if (err) {
-            res.send("There was a problem adding the information to the database.");
+        if (result === {}||result === undefined)
+        {
+            users.insert(userObject, function (err, doc) {
+                if (err) {
+                    res.send("There was a problem adding the information to the database.");
 
+                }
+                else {
+                    res.send('Successfully register to our DB.');
+                    console.log('Successfully register to our DB.');
+                    next();
+
+                }
+            });
         }
         else {
-            //res.send('Successfully register to our DB.');
+            res.send('Successfully register to our DB.');
             console.log('Successfully register to our DB.');
             next();
-
         }
     });
+
 
 
 }, function (req, res, next) {
