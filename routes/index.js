@@ -29,6 +29,9 @@ router.post('/login', function(req, res, next) {
     var db = req.db;
     var users = db.get('users');
     //have the user in the server
+    users.find(userObject).then(function(result) {
+        console.log(result); //normalReturn
+    });
     users.insert(userObject, function (err, doc) {
         if (err) {
             res.send("There was a problem adding the information to the database.");
