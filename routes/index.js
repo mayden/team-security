@@ -41,7 +41,7 @@ router.post('/login', function(req, res, next) {
 
     //save user id in server
     userId = users.find(userObject)._id;
-    console.log(userId);
+    res.send(userId);
 }); //end post login
 
     /* login */
