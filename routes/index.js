@@ -4,7 +4,6 @@ var express = require('express');
 // create our app
 var router = express.Router();
 
-var userId = "";
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -24,7 +23,7 @@ router.post('/login', function(req, res, next) {
     var userObject = {
         "username" : req.body.username,
         "password" : req.body.password,
-        "salt" : Math.random().toString(36).substring(5),
+        "salt" : Math.random().toString(36).substring(5)
     };
 
     var db = req.db;
@@ -40,7 +39,8 @@ router.post('/login', function(req, res, next) {
     });
 
     //save user id in server
-    userId = users.find(userObject)._id;
+    var userId = users.findOne(userObject);
+    var id = userId._id;
     res.send(userId);
 }); //end post login
 
