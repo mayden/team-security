@@ -49,3 +49,7 @@ $('#passForm').on('submit', function(e) {
 //         somecoolfeature();
 //     }
 // }
+
+$(window).bind('hashchange', function() {
+    alert(window.location);
+});
