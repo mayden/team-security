@@ -60,4 +60,10 @@ router.get('/login', function (req, res, next) {
     res.send('LOGIN GET EXAMPLE');
 });
 
+
+/* sendUrl */
+router.post('/sendUrl', function (req, res, next) {
+    console.log( req.body.url);
+});
+
 module.exports = router;
