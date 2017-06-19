@@ -60,15 +60,15 @@ $('#passForm').on('submit', function(e) {
 });
 
 //listener to url
-if ("onhashchange" in window) {
-    alert("The browser supports the hashchange event!"+window.location);
-}
-
-function locationHashChanged() {
-    if (location.hash === "#somecoolfeature") {
-        somecoolfeature();
-    }
-}
+// if ("onhashchange" in window) {
+//     alert("The browser supports the hashchange event!"+window.location);
+// }
+//
+// function locationHashChanged() {
+//     if (location.hash === "#somecoolfeature") {
+//         somecoolfeature();
+//     }
+// }
 
 // $(window).bind('hashchange', function() {
 //     alert(window.location);
