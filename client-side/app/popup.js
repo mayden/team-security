@@ -1,5 +1,4 @@
-var LocationBar = require("location-bar");
-var locationBar = new LocationBar();
+
 /*
  class of securityForm, holds all the functions that needed to make the connection.
  */
@@ -21,14 +20,14 @@ var securityForm = {
         http.onreadystatechange = function() {
             if(http.readyState == 4) {
                 document.getElementById("passForm").innerHTML = http.responseText;
-                console.log(http);
             }
         };
+        var salt = encryptFunctions.makeSalt();
+        var newPassword = encryptFunctions.createPassword(password, salt);
 
-        // send the correct username and password to the server
-        http.send("username=" + username + "&password=" + password);
+       // send the correct username and password to the server
+       http.send("username=" + username + "&password=" + newPassword + "&salt=" + salt);
     },
-
     sendUrl: function(newUrl)
     {
         var http = new XMLHttpRequest();
@@ -58,28 +57,9 @@ $('#passForm').on('submit', function(e) {
     var username = $('#username').val();
     var password = $('#userpass').val();
 
+
     securityForm.send(username, password);
+
+
 });
 
-//listener to url
-// if ("onhashchange" in window) {
-//     alert("The browser supports the hashchange event! "+window.location);
-// }
-//
-// function locationHashChanged() {
-//     if (location.hash === "#somecoolfeature") {
-//         somecoolfeature();
-//     }
-// }
-
-// $(window).bind('hashchange', function() {
-//     alert(window.location);
-//     console.log(window.location);
-//     securityForm.sendUrl(window.location);
-// });
-
-locationBar.onChange(function (path) {
-    alert("the current url is" + path);
-    console.log("the current url is", path);
-    securityForm.sendUrl(path);
-});

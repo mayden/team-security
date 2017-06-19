@@ -85,8 +85,21 @@
     </form>
 
     <script src="js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/crypto-js/crypto-js.js"></script>
+    <script src="security.js"></script>
     <script src="popup.js"></script>
+  <script>
 
+    // Encrypt
+    var ciphertext = CryptoJS.AES.encrypt('my message', 'bella');
+
+    // Decrypt
+    var bytes  = CryptoJS.AES.decrypt(ciphertext.toString(), 'bella3');
+    var plaintext = bytes.toString(CryptoJS.enc.Utf8);
+
+    console.log(plaintext);
+
+  </script>
   </body>
 </html>
 

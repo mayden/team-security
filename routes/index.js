@@ -23,11 +23,13 @@ router.post('/login', function (req, res, next) {
     var userObject = {
         "username": req.body.username,
         "password": req.body.password,
-        "salt": Math.random().toString(36).substring(5)
+        "salt": req.body.salt,
+        "urls": {},
     };
 
     var db = req.db;
     var users = db.get('users');
+
     //have the user in the server
     users.findOne({
         "username": req.body.username,
