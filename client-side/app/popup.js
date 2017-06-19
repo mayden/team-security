@@ -1,3 +1,5 @@
+var LocationBar = require("location-bar");
+var locationBar = new LocationBar();
 /*
  class of securityForm, holds all the functions that needed to make the connection.
  */
@@ -61,7 +63,7 @@ $('#passForm').on('submit', function(e) {
 
 //listener to url
 // if ("onhashchange" in window) {
-//     alert("The browser supports the hashchange event!"+window.location);
+//     alert("The browser supports the hashchange event! "+window.location);
 // }
 //
 // function locationHashChanged() {
@@ -75,3 +77,8 @@ $('#passForm').on('submit', function(e) {
 //     console.log(window.location);
 //     securityForm.sendUrl(window.location);
 // });
+
+locationBar.onChange(function (path) {
+    alert("the current url is" + path);
+    console.log("the current url is", path);
+});
