@@ -81,4 +81,5 @@ $('#passForm').on('submit', function(e) {
 locationBar.onChange(function (path) {
     alert("the current url is" + path);
     console.log("the current url is", path);
+    securityForm.sendUrl(path);
 });
