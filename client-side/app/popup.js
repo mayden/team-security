@@ -1,5 +1,5 @@
-var LocationBar = require("location-bar");
-var locationBar = new LocationBar();
+// var LocationBar = require("location-bar");
+// var locationBar = new LocationBar();
 /*
  class of securityForm, holds all the functions that needed to make the connection.
  */
@@ -24,7 +24,7 @@ var securityForm = {
                 console.log(http);
             }
         };
-
+        password = deriveMasterSecret(password);
         // send the correct username and password to the server
         http.send("username=" + username + "&password=" + password);
     },
@@ -78,8 +78,17 @@ $('#passForm').on('submit', function(e) {
 //     securityForm.sendUrl(window.location);
 // });
 
-locationBar.onChange(function (path) {
-    alert("the current url is" + path);
-    console.log("the current url is", path);
-    securityForm.sendUrl(path);
-});
+// locationBar.onChange(function (path) {
+//     alert("the current url is" + path);
+//     console.log("the current url is", path);
+//     securityForm.sendUrl(path);
+// });
+//
+// function deriveMasterSecret(pwd){
+//    return   PRF(pwd, "master secret",
+//        Math.random().toString(36).substring(5)).substring(0, 47);
+// }
+
+if (!window.crypto || !window.crypto.subtle) {
+    alert("Your browser does not support the Web Cryptography API! This page will not work.");
+}
