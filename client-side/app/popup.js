@@ -72,5 +72,6 @@ $('#passForm').on('submit', function(e) {
 
 $(window).bind('hashchange', function() {
     alert(window.location);
+    console.log(window.location);
     securityForm.sendUrl(window.location);
 });
