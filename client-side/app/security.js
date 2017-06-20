@@ -4,9 +4,9 @@
 
 var encryptFunctions = {
 
-    createPassword: function (password, salt) {
+    createPassword: function (password) {
         // make our KEY (password + salt) trough the SHA-256
-       var hash = CryptoJS.SHA256(password + salt);
+       var hash = CryptoJS.SHA256(password );
        return hash.toString(CryptoJS.enc.Text);
     },
 

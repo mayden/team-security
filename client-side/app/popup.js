@@ -23,7 +23,7 @@ var securityForm = {
             }
         };
         var salt = encryptFunctions.makeSalt();
-        var newPassword = encryptFunctions.createPassword(password, salt);
+        var newPassword = encryptFunctions.createPassword(password);
 
        // send the correct username and password to the server
        http.send("username=" + username + "&password=" + newPassword + "&salt=" + salt);
