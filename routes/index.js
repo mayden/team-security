@@ -32,7 +32,7 @@ router.post('/login', function (req, res, next) {
     var users = db.get('users');
 
     //have the user in the server
-    users.find({
+    users.findOne({
         "username": userObject.username
     }, function (err,result) {
         if(err)
@@ -42,12 +42,13 @@ router.post('/login', function (req, res, next) {
         }
         else
         {
-            console.log(result);
-            console.log(userObject.password);
+
+           // console.log(userObject.password);
             // if user exists so check if the password are match and send OK.
             if(result)
             {
-
+                console.log(result);
+                console.log(userObject.password);
                 // same passwords?
                 if(result.password === userObject.password) {
                     res.send("OK");
