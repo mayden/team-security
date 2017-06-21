@@ -74,7 +74,7 @@ router.get('/login', function (req, res, next) {
     res.send('LOGIN GET EXAMPLE');
 });
 
-app.get('/my_secret_page', checkAuth, function (req, res) {
+router.post('/my_secret_page', checkAuth, function (req, res) {
     res.send('if you are viewing this page it means you are logged in');
 });
 
