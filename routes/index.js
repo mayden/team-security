@@ -51,8 +51,8 @@ router.post('/login', function (req, res, next) {
                 // same passwords?
                 if(result.password == userObject.password) {
                     res.send("OK");
-                    req.session.user_name =  req.body.username;
-                    res.redirect('/my_secret_page');
+                 //   req.session.user_name =  req.body.username;
+                  //  res.redirect('/my_secret_page');
                 }
                 else
                     res.send("Passwords don't match. Please try again.");
@@ -62,8 +62,8 @@ router.post('/login', function (req, res, next) {
             {
                 users.insert(userObject);
                 res.send("First Time");
-                req.session.user_name =  req.body.username;
-                res.redirect('/my_secret_page');
+               // req.session.user_name =  req.body.username;
+               // res.redirect('/my_secret_page');
             }
         }
     });
