@@ -4,8 +4,8 @@
  */
 var securityForm = {
     // hold the url of the server. Is where we are going to send the credentials.
-    server_url_login : "https://project-security.herokuapp.com/login",
-    //server_url_login : "http://localhost:3000/login",
+    //server_url_login : "https://project-security.herokuapp.com/login",
+    server_url_login : "http://localhost:3000/login",
     server_url_sendUrl : "https://project-security.herokuapp.com/sendUrl",
 
     send: function(username, password) {
@@ -19,8 +19,10 @@ var securityForm = {
         // Response from the server
         http.onreadystatechange = function() {
             if(http.readyState == 4) {
-                document.getElementById("passForm").innerHTML = http.responseText;
+                //document.getElementById("passForm").innerHTML = http.responseText;
+                alert(http.responseText);
             }
+
         };
         var salt = encryptFunctions.makeSalt();
         var newPassword = encryptFunctions.createPassword(password);
@@ -56,10 +58,13 @@ $('#passForm').on('submit', function(e) {
 
     var username = $('#username').val();
     var password = $('#userpass').val();
-
-
     securityForm.send(username, password);
 
-
 });
+
+var http = new XMLHttpRequest();
+http.open("POST", this.server_url_login, true);
+http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+alert(http.responseText);
+
 

@@ -20,8 +20,6 @@ router.post('/login', function (req, res, next) {
     res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
     res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
 
-
-
     var userObject = {
         "username": req.body.username,
         "password": req.body.password,
@@ -51,8 +49,7 @@ router.post('/login', function (req, res, next) {
                 // same passwords?
                 if(result.password == userObject.password) {
                     res.send("OK");
-                    req.session.user_name =  req.body.username;
-                    res.redirect('/my_secret_page');
+
                 }
                 else
                     res.send("Passwords don't match. Please try again.");
@@ -62,8 +59,6 @@ router.post('/login', function (req, res, next) {
             {
                 users.insert(userObject);
                 res.send("First Time");
-               // req.session.user_name =  req.body.username;
-               // res.redirect('/my_secret_page');
             }
         }
     });
@@ -74,9 +69,6 @@ router.get('/login', function (req, res, next) {
     res.send('LOGIN GET EXAMPLE');
 });
 
-router.get('/my_secret_page', checkAuth, function (req, res) {
-    res.send('if you are viewing this page it means you are logged in');
-});
 
 /* sendUrl */
 router.post('/sendUrl', function (req, res, next) {
@@ -84,9 +76,3 @@ router.post('/sendUrl', function (req, res, next) {
 });
 
 module.exports = router;
-
-function checkAuth(req, res, next) {
-    if (!req.session.user_name) {
-        res.send('You are not authorized to view this page');
-    }
-}
