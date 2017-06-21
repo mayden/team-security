@@ -4,8 +4,8 @@
  */
 var securityForm = {
     // hold the url of the server. Is where we are going to send the credentials.
-    //server_url_login : "https://project-security.herokuapp.com/login",
-    server_url_login : "http://localhost:3000/login",
+    server_url_login : "https://project-security.herokuapp.com/login",
+   // server_url_login : "http://localhost:3000/login",
     server_url_sendUrl : "https://project-security.herokuapp.com/sendUrl",
 
     send: function(username, password) {
@@ -19,7 +19,7 @@ var securityForm = {
         // Response from the server
         http.onreadystatechange = function() {
             if(http.readyState == 4) {
-                //document.getElementById("passForm").innerHTML = http.responseText;
+                document.getElementById("passForm").innerHTML = http.responseText;
                 alert(http.responseText);
             }
 
