@@ -22,6 +22,14 @@ var securityForm = {
                 document.getElementById("passForm").innerHTML = http.responseText;
                 alert(http.responseText);
                 console.log(http.responseText);
+                if(http.responseText === "First Time" || http.responseText==="OK")
+                {
+                    var para = document.createElement("p");
+                    var node = document.createTextNode("This is new.");
+                    para.appendChild(node);
+                    var element = document.getElementById("login");
+                    element.appendChild(para);
+                }
             }
 
         };
