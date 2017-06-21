@@ -69,20 +69,22 @@
 
 
     <br />  <br />
-    <form id="passForm">
-      (If it is your first visit, just register with your username and password)
-      <div class="container">
-        <label><b>Username</b></label>
-        <input type="text" placeholder="Enter Username" name="username" id="username" required>
+    <div id = "form">
+        <br/>
+    <!--<form id="passForm">-->
+      <!--(If it is your first visit, just register with your username and password)-->
+      <!--<div class="container">-->
+        <!--<label><b>Username</b></label>-->
+        <!--<input type="text" placeholder="Enter Username" name="username" id="username" required>-->
 
-        <label><b>Password</b></label>
-          <input type="password" placeholder="Enter Password" name="pdsw" id="userpass" required>
+        <!--<label><b>Password</b></label>-->
+          <!--<input type="password" placeholder="Enter Password" name="pdsw" id="userpass" required>-->
 
-        <button type="submit">Login</button>
-      </div>
+        <!--<button type="submit">Login</button>-->
+      <!--</div>-->
+    <!--</form>-->
+    </div>
     <div id="login"></div>
-    </form>
-
     <script src="js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="js/crypto-js/crypto-js.js"></script>
     <script src="security.js"></script>
@@ -90,11 +92,11 @@
   <script>
 
     // Encrypt
-    var ciphertext = CryptoJS.AES.encrypt('my message', 'bella');
+    //var ciphertext = CryptoJS.AES.encrypt('my message', 'bella');
 
     // Decrypt
-    var bytes  = CryptoJS.AES.decrypt(ciphertext.toString(), 'bella3');
-    var plaintext = bytes.toString(CryptoJS.enc.Utf8);
+    //var bytes  = CryptoJS.AES.decrypt(ciphertext.toString(), 'bella3');
+    //var plaintext = bytes.toString(CryptoJS.enc.Utf8);
 
     //console.log(plaintext);
 

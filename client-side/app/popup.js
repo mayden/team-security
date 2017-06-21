@@ -2,6 +2,8 @@
 /*
  class of securityForm, holds all the functions that needed to make the connection.
  */
+
+var isSing=false;
 var securityForm = {
     // hold the url of the server. Is where we are going to send the credentials.
     server_url_login : "https://project-security.herokuapp.com/login",
@@ -19,6 +21,7 @@ var securityForm = {
         // Response from the server
         http.onreadystatechange = function() {
             if(http.readyState == 4) {
+                isSing= !isSing;
                 document.getElementById("passForm").innerHTML = http.responseText;
                 alert(http.responseText);
                 console.log(http.responseText);
@@ -71,6 +74,13 @@ $('#passForm').on('submit', function(e) {
 
 });
 
+if (!isSing) {
 
-
-
+    var contain =" <form id='passForm'><div class='container'>" +
+        " <label><b>Username</b></label>" +
+        "<input type='text' placeholder='Enter Username' name='username' id='username' required> " +
+        "<label><b>Password</b></label> " +
+        "<input type='password' placeholder='Enter Password' name='pdsw' id='userpass' required> " +
+        "<button type='submit'>Login</button></div></form>";
+     document.getElementById("form").innerHTML =contain;
+}
