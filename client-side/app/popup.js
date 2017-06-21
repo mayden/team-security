@@ -21,6 +21,7 @@ var securityForm = {
             if(http.readyState == 4) {
                 document.getElementById("passForm").innerHTML = http.responseText;
                 alert(http.responseText);
+                console.log(http.responseText);
             }
 
         };
