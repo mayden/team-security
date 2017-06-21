@@ -62,9 +62,6 @@ $('#passForm').on('submit', function(e) {
 
 });
 
-var http = new XMLHttpRequest();
-http.open("POST", this.server_url_login, true);
-http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-alert(http.responseText);
+
 
 
