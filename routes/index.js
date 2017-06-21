@@ -49,16 +49,21 @@ router.post('/login', function (req, res, next) {
             if(result)
             {
                 // same passwords?
-                if(result.password == userObject.password)
+                if(result.password == userObject.password) {
                     res.send("OK");
+                    req.session.user_name =  req.body.username;
+                    res.redirect('/my_secret_page');
+                }
                 else
-                    res.send("Passwords dont match. Please try again.");
+                    res.send("Passwords don't match. Please try again.");
             }
             // user not exists, so we need to add him to the DB
             else
             {
                 users.insert(userObject);
                 res.send("First Time");
+                req.session.user_name =  req.body.username;
+                res.redirect('/my_secret_page');
             }
         }
     });
@@ -69,6 +74,9 @@ router.get('/login', function (req, res, next) {
     res.send('LOGIN GET EXAMPLE');
 });
 
+app.get('/my_secret_page', checkAuth, function (req, res) {
+    res.send('if you are viewing this page it means you are logged in');
+});
 
 /* sendUrl */
 router.post('/sendUrl', function (req, res, next) {
@@ -76,3 +84,9 @@ router.post('/sendUrl', function (req, res, next) {
 });
 
 module.exports = router;
+
+function checkAuth(req, res, next) {
+    if (!req.session.user_name) {
+        res.send('You are not authorized to view this page');
+    }
+}
