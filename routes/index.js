@@ -33,7 +33,7 @@ router.post('/login', function (req, res, next) {
 
     //have the user in the server
     users.findOne({
-      //  "username": userObject.username
+       "username": userObject.username
     },{"password": 1}, function (err,result) {
         if(err)
         {
