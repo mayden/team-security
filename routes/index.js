@@ -32,7 +32,7 @@ router.post('/login', function (req, res, next) {
     var users = db.get('users');
 
     //have the user in the server
-    users.findOne({
+    users.find({
         "username": userObject.username
     }, function (err,result) {
         if(err)
