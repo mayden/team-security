@@ -74,19 +74,18 @@ var securityForm = {
  */
 $('#passForm').on('submit', function(e) {
     e.preventDefault();
-    alert("here");
     var username = $('#username').val();
     var password = $('#userpass').val();
     securityForm.send(username, password);
 
 });
-if (!isLogin) {
-    var contain =" <form id='passForm'><div class='container'>" +
-        " <label><b>Username</b></label>" +
-        "<input type='text' placeholder='Enter Username' name='username' id='username' required> " +
-        "<label><b>Password</b></label> " +
-        "<input type='password' placeholder='Enter Password' name='pdsw' id='userpass' required> " +
-        "<button type='submit'>Login</button>" +
-        "</div></form>";
-     document.getElementById("div_form").innerHTML = contain;
-}
+// if (!isLogin) {
+//     var contain =" <form id='passForm'><div class='container'>" +
+//         " <label><b>Username</b></label>" +
+//         "<input type='text' placeholder='Enter Username' name='username' id='username' required> " +
+//         "<label><b>Password</b></label> " +
+//         "<input type='password' placeholder='Enter Password' name='pdsw' id='userpass' required> " +
+//         "<button type='submit'>Login</button>" +
+//         "</div></form>";
+//      document.getElementById("div_form").innerHTML = contain;
+// }
