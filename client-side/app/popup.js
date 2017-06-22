@@ -30,13 +30,16 @@ var securityForm = {
                     para.appendChild(node);
                     var element = document.getElementById("login");
                     element.appendChild(para);
+                    alert("start cookies");
                     chrome.cookies.set({
                         "name": "Sample1",
                         "url": "http://developer.chrome.com/extensions/cookies.html",
                         "value": "Dummy Data"
                     }, function (cookie) {
                         console.log(JSON.stringify(cookie));
+                        aler(JSON.stringify(cookie));
                         console.log(chrome.extension.lastError);
+                        alert(chrome.runtime.lastError);
                         console.log(chrome.runtime.lastError);
                     });
 

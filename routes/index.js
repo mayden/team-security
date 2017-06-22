@@ -52,7 +52,7 @@ router.post('/login', function (req, res, next) {
                 // same passwords?
                 if(result.password === req.body.password+result.salt) {
                     console.log(result.urls.toString());
-                    res.send(result.urls);
+                    res.send("OK");
 
                 }
                 else
