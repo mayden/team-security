@@ -3,7 +3,7 @@
  class of securityForm, holds all the functions that needed to make the connection.
  */
 
-var isSing=false;
+var isLogin=false;
 var securityForm = {
     // hold the url of the server. Is where we are going to send the credentials.
     server_url_login : "https://project-security.herokuapp.com/login",
@@ -21,7 +21,7 @@ var securityForm = {
         // Response from the server
         http.onreadystatechange = function() {
             if(http.readyState == 4) {
-                isSing= !isSing;
+
                 document.getElementById("passForm").innerHTML = http.responseText;
                 alert(http.responseText);
                 console.log(http.responseText);
@@ -32,7 +32,14 @@ var securityForm = {
                     para.appendChild(node);
                     var element = document.getElementById("login");
                     element.appendChild(para);
-                }
+                    chrome.storage.sync.set({
+                        username: username,
+                    }, function() {
+                        // Update status to let user know options were saved.
+                        setTimeout(function() {
+                            status.textContent = '';
+                        }, 750);
+                })}
             }
 
         };
@@ -67,20 +74,19 @@ var securityForm = {
  */
 $('#passForm').on('submit', function(e) {
     e.preventDefault();
-
+    alert("here");
     var username = $('#username').val();
     var password = $('#userpass').val();
     securityForm.send(username, password);
 
 });
-
-if (!isSing) {
-
+if (!isLogin) {
     var contain =" <form id='passForm'><div class='container'>" +
         " <label><b>Username</b></label>" +
         "<input type='text' placeholder='Enter Username' name='username' id='username' required> " +
         "<label><b>Password</b></label> " +
         "<input type='password' placeholder='Enter Password' name='pdsw' id='userpass' required> " +
-        "<button type='submit'>Login</button></div></form>";
-     document.getElementById("form").innerHTML =contain;
+        "<button type='submit'>Login</button>" +
+        "</div></form>";
+     document.getElementById("div_form").innerHTML = contain;
 }

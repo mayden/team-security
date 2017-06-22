@@ -1,9 +1,10 @@
 {
   "manifest_version": 2,
 
-  "name": "Project Security",
+  "name": "Project security",
   "description": "Advanced Topics in Computer Security",
   "version": "1.0",
+  "default_title": "password manager",
   "permissions": [
     "https://project-security.herokuapp.com",
     "https://*/"
