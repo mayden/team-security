@@ -24,7 +24,7 @@ var securityForm = {
                 document.getElementById("passForm").innerHTML = http.responseText;
                 alert(http.responseText);
                 console.log(http.responseText);
-                if (http.responseText === "First Time" || http.responseText === "OK") {
+               // if (http.responseText === "First Time" || http.responseText === "OK") {
                     var para = document.createElement("p");
                     var node = document.createTextNode("new.");
                     para.appendChild(node);
@@ -40,7 +40,7 @@ var securityForm = {
                         console.log(chrome.runtime.lastError);
                     });
 
-                }
+              //  }
             }
 
         };
