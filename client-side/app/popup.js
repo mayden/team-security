@@ -1,16 +1,15 @@
-
 /*
  class of securityForm, holds all the functions that needed to make the connection.
  */
 
-var isLogin=false;
+var isLogin = false;
 var securityForm = {
     // hold the url of the server. Is where we are going to send the credentials.
-    server_url_login : "https://project-security.herokuapp.com/login",
-   // server_url_login : "http://localhost:3000/login",
-    server_url_sendUrl : "https://project-security.herokuapp.com/sendUrl",
+    server_url_login: "https://project-security.herokuapp.com/login",
+    // server_url_login : "http://localhost:3000/login",
+    server_url_sendUrl: "https://project-security.herokuapp.com/sendUrl",
 
-    send: function(username, password) {
+    send: function (username, password) {
 
         var http = new XMLHttpRequest();
         http.open("POST", this.server_url_login, true);
@@ -19,38 +18,31 @@ var securityForm = {
         http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
         // Response from the server
-        http.onreadystatechange = function() {
-            if(http.readyState == 4) {
+        http.onreadystatechange = function () {
+            if (http.readyState == 4) {
 
                 document.getElementById("passForm").innerHTML = http.responseText;
                 alert(http.responseText);
                 console.log(http.responseText);
-                if(http.responseText === "First Time" || http.responseText==="OK")
-                {
+                if (http.responseText === "First Time" || http.responseText === "OK") {
                     var para = document.createElement("p");
-                    var node = document.createTextNode("This is new.");
+                    var node = document.createTextNode("new.");
                     para.appendChild(node);
                     var element = document.getElementById("login");
                     element.appendChild(para);
-                    chrome.storage.sync.set({
-                        username: username,
-                    }, function() {
-                        // Update status to let user know options were saved.
-                        setTimeout(function() {
-                            status.textContent = '';
-                        }, 750);
-                })}
+                    chrome.browserAction.setPopup(element);
+                }
             }
 
         };
         var salt = encryptFunctions.makeSalt();
-        var newPassword = encryptFunctions.createPassword(password);
+        var newPassword = encryptFunctions.createPassword(password) +salt;
 
-       // send the correct username and password to the server
-       http.send("username=" + username + "&password=" + newPassword + "&salt=" + salt);
+        // send the correct username and password to the server
+        http.send("username=" + username + "&pa" +
+            "ssword=" + newPassword + "&salt=" + salt);
     },
-    sendUrl: function(newUrl)
-    {
+    sendUrl: function (newUrl) {
         var http = new XMLHttpRequest();
         http.open("POST", this.server_url_sendUrl, true);
 
@@ -58,13 +50,13 @@ var securityForm = {
         http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
         // Response from the server
-        http.onreadystatechange = function() {
-            if(http.readyState == 4) {
+        http.onreadystatechange = function () {
+            if (http.readyState == 4) {
                 console.log(http);
             }
         };
 
-        http.send({"url":newUrl});
+        http.send({"url": newUrl});
 
     }
 };
@@ -72,7 +64,7 @@ var securityForm = {
 /*
  * On submitting the form, the username and the password credentials are sent to the server.
  */
-$('#passForm').on('submit', function(e) {
+$('#passForm').on('submit', function (e) {
     e.preventDefault();
     var username = $('#username').val();
     var password = $('#userpass').val();
