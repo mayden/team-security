@@ -8,7 +8,8 @@
   "permissions": [
     "https://project-security.herokuapp.com",
     "https://*/",
-    "cookies"
+    "cookies",
+    "background"
   ],
   "browser_action": {
     "default_icon": "img/1.png",
