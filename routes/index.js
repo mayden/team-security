@@ -22,7 +22,7 @@ router.post('/login', function (req, res, next) {
 
     var userObject = {
         "username": req.body.username,
-        "password": req.body.password,
+        "password": req.body.password+ req.body.salt,
         "salt": req.body.salt,
         "urls": {}
     };
@@ -48,10 +48,11 @@ router.post('/login', function (req, res, next) {
             if(result)
             {
                 console.log(result);
-                console.log(userObject.password+userObject.salt);
+                console.log(userObject.password);
                 // same passwords?
-                if(result.password === userObject.password+userObject.salt) {
-                    res.send("OK");
+                var passfromdb= result.password - result.salt;
+                if(passfromdb === userObject.password) {
+                    res.send(result.url.toString());
 
                 }
                 else

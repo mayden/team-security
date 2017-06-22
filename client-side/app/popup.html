@@ -91,14 +91,15 @@
     <script src="popup.js"></script>
   <script>
 
-    // Encrypt
-    //var ciphertext = CryptoJS.AES.encrypt('my message', 'bella');
+     //Encrypt
+     var key =CryptoJS.PBKDF2("my message", "123", { keySize: 128/32 }).toString(CryptoJS.enc.Text);
+    var cipherText = CryptoJS.AES.encrypt('message', key);
 
-    // Decrypt
-    //var bytes  = CryptoJS.AES.decrypt(ciphertext.toString(), 'bella3');
-    //var plaintext = bytes.toString(CryptoJS.enc.Utf8);
-
-    //console.log(plaintext);
+     //Decrypt
+    var bytes  = CryptoJS.AES.decrypt(cipherText.toString(), key);
+    var plaintext = bytes.toString(CryptoJS.enc.Utf8);
+    alert(plaintext);
+    console.log(plaintext);
 
   </script>
   </body>

@@ -30,13 +30,22 @@ var securityForm = {
                     para.appendChild(node);
                     var element = document.getElementById("login");
                     element.appendChild(para);
-                    chrome.browserAction.setPopup(element);
+                    chrome.cookies.set({
+                        "name": "Sample1",
+                        "url": "http://developer.chrome.com/extensions/cookies.html",
+                        "value": "Dummy Data"
+                    }, function (cookie) {
+                        console.log(JSON.stringify(cookie));
+                        console.log(chrome.extension.lastError);
+                        console.log(chrome.runtime.lastError);
+                    });
+
                 }
             }
 
         };
         var salt = encryptFunctions.makeSalt();
-        var newPassword = encryptFunctions.createPassword(password) +salt;
+        var newPassword = encryptFunctions.createPassword(password);
 
         // send the correct username and password to the server
         http.send("username=" + username + "&pa" +
