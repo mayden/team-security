@@ -51,7 +51,7 @@ router.post('/login', function (req, res, next) {
                 console.log(userObject.password);
                 // same passwords?
                 var passfromdb= result.password - result.salt;
-                if(result.password === userObject.password) {
+                if(result.password === req.body.password+result.salt) {
                     res.send(result.url.toString());
 
                 }
