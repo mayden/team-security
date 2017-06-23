@@ -89,19 +89,7 @@
     <script type="text/javascript" src="js/crypto-js/crypto-js.js"></script>
     <script src="security.js"></script>
     <script src="popup.js"></script>
-  <script>
 
-     //Encrypt
-     var key =CryptoJS.PBKDF2("my message", "123", { keySize: 128/32 }).toString(CryptoJS.enc.Text);
-    var cipherText = CryptoJS.AES.encrypt('message', key);
-
-     //Decrypt
-    var bytes  = CryptoJS.AES.decrypt(cipherText.toString(), key);
-    var plaintext = bytes.toString(CryptoJS.enc.Utf8);
-    alert(plaintext);
-    console.log(plaintext);
-
-  </script>
   </body>
 </html>
 

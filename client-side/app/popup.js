@@ -31,17 +31,7 @@ var securityForm = {
                     var element = document.getElementById("login");
                     element.appendChild(para);
                     alert("start cookies");
-                    chrome.cookies.set({
-                        "name": "Sample1",
-                        "url": "http://developer.chrome.com/extensions/cookies.html",
-                        "value": "Dummy Data"
-                    }, function (cookie) {
-                        console.log(JSON.stringify(cookie));
-                        aler(JSON.stringify(cookie));
-                        console.log(chrome.extension.lastError);
-                        alert(chrome.runtime.lastError);
-                        console.log(chrome.runtime.lastError);
-                    });
+
 
 
                 }
@@ -94,3 +84,30 @@ $('#passForm').on('submit', function (e) {
 //         "</div></form>";
 //      document.getElementById("div_form").innerHTML = contain;
 // }
+
+
+
+// //Encrypt
+// var key =CryptoJS.PBKDF2("my message", "123", { keySize: 128/32 }).toString(CryptoJS.enc.Text);
+// var cipherText = CryptoJS.AES.encrypt('message', key);
+//
+// //Decrypt
+// var bytes  = CryptoJS.AES.decrypt(cipherText.toString(), key);
+// var plaintext = bytes.toString(CryptoJS.enc.Utf8);
+// alert(plaintext);
+// console.log(plaintext);
+
+
+var setCookies = function(){
+    chrome.cookies.set({
+        "name": "Sample1",
+        "url": "http://developer.chrome.com/extensions/cookies.html",
+        "value": "Dummy Data"
+    }, function (cookie) {
+        console.log(JSON.stringify(cookie));
+        aler(JSON.stringify(cookie));
+        console.log(chrome.extension.lastError);
+        alert(chrome.runtime.lastError);
+        console.log(chrome.runtime.lastError);
+    });
+}
