@@ -80,6 +80,7 @@
           <input type="password" placeholder="Enter Password" name="pdsw" id="userpass" required>
 
         <button type="submit">Login</button>
+        <button id="loginUpload">save login for the current site</button>
       </div>
 
     </form>
@@ -88,18 +89,9 @@
     <script type="text/javascript" src="js/crypto-js/crypto-js.js"></script>
     <script src="security.js"></script>
     <script src="popup.js"></script>
-  <script>
+    <script src="background.js"></script>
+    <script src="content.js"></script>
 
-    // Encrypt
-    var ciphertext = CryptoJS.AES.encrypt('my message', 'bella');
-
-    // Decrypt
-    var bytes  = CryptoJS.AES.decrypt(ciphertext.toString(), 'bella3');
-    var plaintext = bytes.toString(CryptoJS.enc.Utf8);
-
-    console.log(plaintext);
-
-  </script>
   </body>
 </html>
 
