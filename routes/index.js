@@ -90,7 +90,7 @@ router.post('/addurl', function (req, res, next) {
 
     users.update({"username": username},
     {
-        "$push": {
+        $push: {
             "urls": {
                 "url":      url,
                 "username": username,
