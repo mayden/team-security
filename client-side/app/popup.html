@@ -63,7 +63,10 @@
         margin-bottom: 10px;
         display: none;
       }
-
+      #success {
+        color: green;
+        font-weight: bold;
+      }
       #error {
         color: #FF0000;
         font-weight: bold;
@@ -100,6 +103,7 @@
           <input type="password" placeholder="Enter Password" name="pdsw" id="userpass" required>
 
         <div id="error">&nbsp;</div>
+        <div id="success">&nbsp;</div>
 
         <button type="submit">Login</button>
 
@@ -108,7 +112,7 @@
     </form>
 
     <div id="menu">
-        <button id="loginUpload">Save Credentials</button>
+        <button id="loginUpload">Save & Update Credentials</button>
         <button id="logoutButton">Logout</button>
     </div>
 

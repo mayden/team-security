@@ -1,12 +1,12 @@
 chrome.runtime.onMessage.addListener(function(request, sender) {
     if (request.action == "getSource") {
        var passOfSite = request.password;
-       var username = request.user;
+       var site_username = request.user;
        var email = request.email;
        var url  = sender.url;
 
         // check which username we take - by email or by text
-        var user = (!!username) ? username : email;
+        var user = (!!site_username) ? site_username : email;
 
 
         chrome.storage.sync.get(['username','masterPassword', 'salt', 'urls'], function(items) {
@@ -15,14 +15,44 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
             // pass is the password of the website we want to store
             // masterPassword = our master password
             // we are going to derive key from the master password (length of 32)
-            var keyEncryption = CryptoJS.PBKDF2(items.masterPassword, items.salt, { keySize: 128/32 }).toString(CryptoJS.enc.Text);
+            var derivedKey = CryptoJS.PBKDF2(items.masterPassword, items.salt, { keySize: 128/32 }).toString(CryptoJS.enc.Text);
 
             // passOfSite = our secret message
             // keyEncryption = our derived KEY
-            var cipherText = CryptoJS.AES.encrypt(passOfSite, keyEncryption);
+            var cipherText = CryptoJS.AES.encrypt(passOfSite, derivedKey);
 
-            securityForm.sendUrl(url, username, cipherText);
 
+            console.log("items.urls.length: " + items.urls.length);
+            var find = false;
+            for (var i = 0; i < items.urls.length; i++)
+            {
+                if (url === items.urls[i].site_url)
+                {
+                    var tmp = items;
+
+                    //update the url
+                    console.log(url);
+                    console.log('checking something');
+
+                    tmp.urls[i].site_password = cipherText;
+
+                    find = true;
+                    break;
+                }
+            }
+            if (!find)
+            {
+                console.log('new url');
+                // send new url
+                // mainUsername, url, username, cipherText
+                securityForm.sendUrl(items.username, url, site_username, cipherText);
+            }
+            else
+            {
+                console.log('updating url');
+                // send old url
+                securityForm.updateUrl(items.username, url, site_username, cipherText);
+            }
         });
 
 
@@ -107,7 +137,7 @@ var securityForm = {
        // send the correct username and password to the server
        http.send("username=" + username + "&password=" + newPassword + "&salt=" + salt);
     },
-    sendUrl: function(url, username, passSite)
+    sendUrl: function(main_username, url, site_username, passSite)
     {
         var http = new XMLHttpRequest();
         http.open("POST", this.server_add_url, true);
@@ -118,11 +148,39 @@ var securityForm = {
         // Response from the server
         http.onreadystatechange = function() {
             if(http.readyState == 4) {
-                console.log(http.responseText);
+                var jsonObject = JSON.parse(http.responseText);
+
+                // Save it using the Chrome extension storage API.
+                chrome.storage.sync.set({
+                    'urls': jsonObject.urls,
+                }, function() {
+                    // Notify that we saved.
+                    console.log('Settings saved #2');
+                });
+
+                document.getElementById("success").innerHTML = "Your credentials has been successfully added to our system.";
             }
         };
 
-        http.send("url=" + url + "&username=" + username + "&password=" + passSite);
+        http.send("main_username=" + main_username + "&site_url=" + url + "&site_username=" + site_username + "&site_password=" + passSite);
+
+    },
+    updateUrl: function(main_username, url, site_username, passSite)
+    {
+        var http = new XMLHttpRequest();
+        http.open("POST", this.server_add_url, true);
+
+        //Send the proper header information along with the request
+        http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+        // Response from the server
+        http.onreadystatechange = function() {
+            if(http.readyState == 4) {
+                document.getElementById("passForm").innerHTML = http.responseText;
+            }
+        };
+
+        http.send("main_username=" + main_username + "&site_url=" + url + "&site_username=" + site_username + "&site_password=" + passSite);
 
     }
 };
