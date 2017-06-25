@@ -1,18 +1,41 @@
 chrome.runtime.onMessage.addListener(function(request, sender) {
     if (request.action == "getSource") {
-       var pass = request.password;
-       var user = request.user;
+       var passOfSite = request.password;
+       var username = request.user;
+       var email = request.email;
        var url  = sender.url;
 
-        console.log("user is: " + user);
-        console.log("pass is: " + pass);
+        // check which username we take - by email or by text
+        var user = (!!username) ? username : email;
+
+
+        chrome.storage.sync.get(['username','masterPassword', 'salt', 'urls'], function(items) {
+
+            // encryption and deriving key
+            // pass is the password of the website we want to store
+            // masterPassword = our master password
+            // we are going to derive key from the master password (length of 32)
+            var keyEncryption = CryptoJS.PBKDF2(items.masterPassword, items.salt, { keySize: 128/32 }).toString(CryptoJS.enc.Text);
+
+            // passOfSite = our secret message
+            // keyEncryption = our derived KEY
+            var cipherText = CryptoJS.AES.encrypt(passOfSite, keyEncryption);
+
+
+        });
+
+
+        //Decrypt
+        /*
+        var bytes  = CryptoJS.AES.decrypt(cipherText.toString(), keyEncryption);
+        var plaintext = bytes.toString(CryptoJS.enc.Utf8);
+        console.log("plaintext is:" + plaintext);
+        */
+
     }
 });
 
 function injectScript() {
-
-   // var message = document.querySelector('input')[0].value;
-
     chrome.tabs.executeScript(null, {
         file: "js/myJS.js"
     }, function() {
@@ -51,15 +74,22 @@ var securityForm = {
         http.onreadystatechange = function() {
             if(http.readyState == 4) {
                 //document.getElementById("passForm").innerHTML = http.responseText;
-
-                if(http.responseText == "OK" || http.responseText == "First Time")
+                if(http.status == 200)
                 {
+                    var jsonObject = JSON.parse(http.responseText);
+
                     // Save it using the Chrome extension storage API.
-                    chrome.storage.sync.set({'username': username, 'password': password}, function() {
+                    chrome.storage.sync.set({
+                        'username': jsonObject.username,
+                        'masterPassword': jsonObject.password,
+                        'salt': jsonObject.salt,
+                        'urls': jsonObject.urls,
+                    }, function() {
                         // Notify that we saved.
                         console.log('Settings saved');
                     });
 
+                    // refreshing the page after login
                     chrome.runtime.reload();
                 }
                 else
@@ -115,9 +145,8 @@ $('form').on('submit', function(e) {
 
 });
 
-$('#logout').click(function(e) {
+$('#logoutButton').click(function(e) {
     e.preventDefault();
-    document.getElementById("passForm").innerHTML = "HUY";
 
     chrome.storage.sync.clear();
 
@@ -126,11 +155,13 @@ $('#logout').click(function(e) {
 });
 
 (function () {
-    chrome.storage.sync.get(['username', 'password'], function(items) {
-        if(!!items.username | !!items.password)
+
+    chrome.storage.sync.get(['username','masterPassword', 'salt', 'urls'], function(items) {
+
+        if(!!items.username | !!items.masterPassword)
         {
             document.getElementById("menu").style.display = "block";
-            document.getElementById("passForm").innerHTML = "Welcome back <span class='bolduser'>" + items.username + "!</span>";
+            document.getElementById("passForm").innerHTML = "<h3>Welcome back <span class='bolduser'>" + items.username + "!</span></h3>";
 
         }
     });
