@@ -154,7 +154,7 @@ router.post('/geturls', function (req, res, next) {
 
     var username = req.body.main_username;
 
-    users.find({'username': username},function(err, result){
+    users.find({'username': username},{"urls":1},function(err, result){
        if(err)
        {
            res.send(err);
