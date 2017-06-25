@@ -29,6 +29,6 @@ chrome.runtime.sendMessage({
     action: "getSource",
     source: DOMtoString(document),
     password : document.querySelectorAll('input[type=password]')[0].value,
-    user : (typeof document.querySelectorAll('input[type=text]')[0] !== 'undefined') ? document.querySelectorAll('input[type=text]')[0].value : '',
-    email : (typeof document.querySelectorAll('input[type=email]')[0] !== 'undefined') ? document.querySelectorAll('input[type=email]')[0].value : ''
+    user : (typeof document.querySelectorAll('input[type=text]')[0] !== 'undefined') ? document.querySelectorAll('input[type=text]')[0].value : null,
+    email : (typeof document.querySelectorAll('input[type=email]')[0] !== 'undefined') ? document.querySelectorAll('input[type=email]')[0].value : null
 });

@@ -9,6 +9,7 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
         var user = (!!site_username) ? site_username : email;
 
         chrome.storage.sync.get(['username','masterPassword', 'salt', 'urls'], function(items) {
+
             // encryption and deriving key
             // pass is the password of the website we want to store
             // masterPassword = our master password
@@ -21,7 +22,7 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
 
 
             var find = false;
-            console.log("items.urls.length: " + items.urls.length);
+
             for (var i = 0; i < items.urls.length; i++)
             {
                 if (url === items.urls[i].site_url)
@@ -30,21 +31,21 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
                     break;
                 }
             }
-            /*
+
             if (!find)
             {
                 // send new url
                 // mainUsername, url, username, cipherText
-                securityForm.sendUrl(items.username, url, site_username, cipherText);
+                securityForm.sendUrl(items.username, url, user, cipherText);
             }
             else
             {
                 console.log('updating url');
                 // send old url
-                securityForm.updateUrl(items.username, url, site_username, cipherText);
+                securityForm.updateUrl(items.username, url, user, cipherText);
             }
 
-        */
+
 
         });
 
@@ -146,9 +147,7 @@ var securityForm = {
                 if(http.status == 200) {
                     document.getElementById("success").innerHTML = "Your credentials has been successfully added to our system.";
                     document.getElementById("success").style.display = 'block';
-
-                    // update the items variable to have all the URLs of sites
-                    this.updateListOfUrls(main_username);
+                    securityForm.updateListOfUrls(main_username);
                 }
                 else
                 {
@@ -157,9 +156,6 @@ var securityForm = {
                 }
             }
         };
-
-
-
 
         http.send("main_username=" + main_username + "&site_url=" + url + "&site_username=" + site_username + "&site_password=" + passSite);
 
@@ -176,10 +172,9 @@ var securityForm = {
         http.onreadystatechange = function() {
             if(http.readyState == 4) {
                 if(http.status == 200) {
-                    document.getElementById("passForm").innerHTML = "Successfully UPDATED the password.";
-
-                    // update the items variable to have all the URLs of sites
-                    this.updateListOfUrls(main_username);
+                    document.getElementById("success").innerHTML = "Successfully UPDATED the password for this website.";
+                    document.getElementById("success").style.display = 'block';
+                    securityForm.updateListOfUrls(main_username);
                 }
                 else
                 {
@@ -204,22 +199,16 @@ var securityForm = {
         // Response from the server
         http.onreadystatechange = function() {
             if(http.readyState == 4) {
-
                 if(http.status == 200)
                 {
-                    var jsonObject = JSON.parse(http.responseText);
+                    var urlsObject = JSON.parse(http.responseText);
 
-                    // Save it using the Chrome extension storage API.
-                    chrome.storage.sync.set({
-                        'urls': jsonObject.urls
-                    }, function() {
-                        // Notify that we saved.
-                        console.log('Settings of items saved');
-                    });
-
+                        // Save it using the Chrome extension storage API.
+                        chrome.storage.sync.set({'urls': urlsObject[0].urls}, function() {
+                            console.log('Save the URLS!');
+                       });
                 }
             }
-
         };
 
 
