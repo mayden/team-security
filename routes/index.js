@@ -20,6 +20,7 @@ router.post('/login', function (req, res, next) {
     res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
     res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
 
+
     var userObject = {
         "username": req.body.username,
         "password": req.body.password+ req.body.salt,
@@ -33,7 +34,7 @@ router.post('/login', function (req, res, next) {
 
     //have the user in the server
     users.findOne({
-       "username": userObject.username
+        "username": userObject.username
     },{"password": 1, "salt":1,"urls":1}, function (err,result) {
         if(err)
         {
@@ -42,27 +43,27 @@ router.post('/login', function (req, res, next) {
         }
         else
         {
-
-           // console.log(userObject.password);
+            // console.log(userObject.password);
             // if user exists so check if the password are match and send OK.
             if(result)
             {
-                console.log(result);
-                console.log(userObject.password);
                 // same passwords?
-                if(result.password === req.body.password+result.salt) {
-                    console.log(result.urls.toString());
-                    res.send("OK");
-
+                if(result.password === req.body.password + result.salt) {
+                    res.setHeader('Content-Type', 'application/json');
+                    res.send(JSON.stringify(result));
                 }
                 else
-                    res.send("Passwords don't match. Please try again.");
+                {
+                    res.status('500').send("Passwords don't match. Please try again.");
+                }
+
             }
             // user not exists, so we need to add him to the DB
             else
             {
                 users.insert(userObject);
-                res.send("First Time");
+                res.setHeader('Content-Type', 'application/json');
+                res.send(JSON.stringify(userObject));
             }
         }
     });
