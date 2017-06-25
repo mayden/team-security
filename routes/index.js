@@ -101,9 +101,16 @@ router.post('/addurl', function (req, res, next) {
     }, function(err, doc){
         if(err){
             console.log("Something wrong when adding data!");
+            res.status(500).send("Something wrong when adding data!");
         }
-        console.log(doc);
-        res.send(doc);
+        else
+        {
+            console.log('adding');
+            console.log(doc);
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify(doc));
+        }
+
     });
 });
 
