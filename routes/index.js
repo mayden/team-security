@@ -35,7 +35,7 @@ router.post('/login', function (req, res, next) {
     //have the user in the server
     users.findOne({
         "username": userObject.username
-    },{"password": 1, "salt":1,"urls":1}, function (err,result) {
+    },{"username":1, "password": 1, "salt":1,"urls":1}, function (err,result) {
         if(err)
         {
             console.log(err);
