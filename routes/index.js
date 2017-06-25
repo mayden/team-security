@@ -89,13 +89,14 @@ router.post('/addurl', function (req, res, next) {
     var password = req.body.password;
 
     users.update({"username": username},
-    { $push:
-        {
-        urls:
-        {"url": url,
-         "username":username,
-         "password": password
-        }}
+    {
+        "$push": {
+            "urls": {
+                "url":      url,
+                "username": username,
+                "password": password
+                }
+        }
     }, function(err, doc){
         if(err){
             console.log("Something wrong when updating data!");
