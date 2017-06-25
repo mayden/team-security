@@ -84,26 +84,57 @@ router.post('/addurl', function (req, res, next) {
     var db = req.db;
     var users = db.get('users');
 
-    var url = req.body.url;
-    var username = req.body.username;
-    var password = req.body.password;
+    var main_username = req.body.main_username;
+    var site_url = req.body.site_url;
+    var site_username = req.body.site_username;
+    var site_password = req.body.site_password;
 
-    users.update({"username": username},
+    users.update({"username": main_username},
     {
         $push: {
             "urls": {
-                "url":      url,
-                "username": username,
-                "password": password
+                "site_url":      site_url,
+                "site_username": site_username,
+                "site_password": site_password
                 }
         }
     }, function(err, doc){
         if(err){
-            console.log("Something wrong when updating data!");
+            console.log("Something wrong when adding data!");
         }
         console.log(doc);
         res.send(doc);
     });
 });
+
+/* Updating URL */
+router.post('/updateurl', function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
+    res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
+
+    var db = req.db;
+    var users = db.get('users');
+
+    var main_username = req.body.main_username;
+    var site_url = req.body.site_url;
+    var site_username = req.body.site_username;
+    var site_password = req.body.site_password;
+
+    users.update({"username": main_username, "urls.site_url": site_url },
+        {
+            $set: {
+                "urls.$.site_password": site_password,
+                "urls.$.site_username": site_username
+            }
+        }, function(err, doc){
+            if(err){
+                console.log("Something wrong when updating data!");
+            }
+            console.log(doc);
+            res.send(doc);
+        });
+});
+
 
 module.exports = router;
