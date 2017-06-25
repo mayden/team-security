@@ -25,7 +25,7 @@ router.post('/login', function (req, res, next) {
         "username": req.body.username,
         "password": req.body.password+ req.body.salt,
         "salt": req.body.salt,
-        "urls": {}
+        "urls": []
     };
 
 
