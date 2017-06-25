@@ -88,7 +88,21 @@ router.post('/addurl', function (req, res, next) {
     var username = req.body.username;
     var password = req.body.password;
 
-    // here is the update INSERT
+    users.update({"username": username},
+    { $push:
+        {
+        urls:
+        {"url": url,
+         "username":username,
+         "password": password
+        }}
+    }, function(err, doc){
+        if(err){
+            console.log("Something wrong when updating data!");
+        }
+        console.log(doc);
+        res.send(doc);
+    });
 });
 
 module.exports = router;
