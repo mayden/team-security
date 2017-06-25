@@ -66,10 +66,18 @@
       #success {
         color: green;
         font-weight: bold;
+        clear: both;
+        margin-top: 5px;
+        margin-bottom: 12px;
+        display: none;
       }
       #error {
         color: #FF0000;
         font-weight: bold;
+        clear: both;
+        margin-top: 5px;
+        margin-bottom: 12px;
+        display: none;
       }
       #logoutButton {
           background: orange;
@@ -102,25 +110,19 @@
         <label><b>Password</b></label>
           <input type="password" placeholder="Enter Password" name="pdsw" id="userpass" required>
 
-        <div id="error">&nbsp;</div>
-        <div id="success">&nbsp;</div>
-
         <button type="submit">Login</button>
 
       </div>
 
     </form>
 
+    <div id="error">&nbsp;</div>
+    <div id="success">&nbsp;</div>
+
     <div id="menu">
         <button id="loginUpload">Save & Update Credentials</button>
         <button id="logoutButton">Logout</button>
     </div>
-
-    <div id="listUrls">
-      &nbsp;
-    </div>
-
-
 
     <script src="js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="js/crypto-js/crypto-js.js"></script>

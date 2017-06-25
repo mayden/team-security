@@ -71,7 +71,7 @@ router.post('/login', function (req, res, next) {
 
 /* login */
 router.get('/login', function (req, res, next) {
-    res.send('LOGIN GET EXAMPLE');
+    res.redirect('/');
 });
 
 
@@ -105,10 +105,7 @@ router.post('/addurl', function (req, res, next) {
         }
         else
         {
-            console.log('adding');
-            console.log(doc);
-            res.setHeader('Content-Type', 'application/json');
-            res.send(JSON.stringify(doc));
+            res.send('OK');
         }
 
     });
@@ -137,11 +134,38 @@ router.post('/updateurl', function (req, res, next) {
         }, function(err, doc){
             if(err){
                 console.log("Something wrong when updating data!");
+                res.status('500').send(err);
             }
-            console.log(doc);
-            res.send(doc);
+            else
+            {
+                res.send('OK');
+            }
         });
 });
 
+
+router.post('/geturls', function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
+    res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
+
+    var db = req.db;
+    var users = db.get('users');
+
+    var username = req.body.main_username;
+
+    users.find({'username': username},function(err, result){
+       if(err)
+       {
+           res.send(err);
+       }
+       else
+       {
+           res.setHeader('Content-Type', 'application/json');
+           res.send(JSON.stringify(result.urls));
+       }
+    });
+
+});
 
 module.exports = router;

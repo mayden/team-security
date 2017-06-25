@@ -8,9 +8,7 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
         // check which username we take - by email or by text
         var user = (!!site_username) ? site_username : email;
 
-
         chrome.storage.sync.get(['username','masterPassword', 'salt', 'urls'], function(items) {
-
             // encryption and deriving key
             // pass is the password of the website we want to store
             // masterPassword = our master password
@@ -22,27 +20,19 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
             var cipherText = CryptoJS.AES.encrypt(passOfSite, derivedKey);
 
 
-            console.log("items.urls.length: " + items.urls.length);
             var find = false;
+            console.log("items.urls.length: " + items.urls.length);
             for (var i = 0; i < items.urls.length; i++)
             {
                 if (url === items.urls[i].site_url)
                 {
-                    var tmp = items;
-
-                    //update the url
-                    console.log(url);
-                    console.log('checking something');
-
-                    tmp.urls[i].site_password = cipherText;
-
                     find = true;
                     break;
                 }
             }
+            /*
             if (!find)
             {
-                console.log('new url');
                 // send new url
                 // mainUsername, url, username, cipherText
                 securityForm.sendUrl(items.username, url, site_username, cipherText);
@@ -53,8 +43,10 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
                 // send old url
                 securityForm.updateUrl(items.username, url, site_username, cipherText);
             }
-        });
 
+        */
+
+        });
 
         //Decrypt
         /*
@@ -92,6 +84,8 @@ var securityForm = {
     server_url_login : "https://project-security.herokuapp.com/login",
     //server_url_login : "http://localhost:3000/login",
     server_add_url : "https://project-security.herokuapp.com/addurl",
+    server_update_url : "https://project-security.herokuapp.com/updateurl",
+    server_get_urls : "https://project-security.herokuapp.com/geturls",
 
     send: function(username, password) {
 
@@ -104,7 +98,7 @@ var securityForm = {
         // Response from the server
         http.onreadystatechange = function() {
             if(http.readyState == 4) {
-                //document.getElementById("passForm").innerHTML = http.responseText;
+
                 if(http.status == 200)
                 {
                     var jsonObject = JSON.parse(http.responseText);
@@ -114,7 +108,7 @@ var securityForm = {
                         'username': jsonObject.username,
                         'masterPassword': jsonObject.password,
                         'salt': jsonObject.salt,
-                        'urls': jsonObject.urls,
+                        'urls': jsonObject.urls
                     }, function() {
                         // Notify that we saved.
                         console.log('Settings saved');
@@ -126,6 +120,7 @@ var securityForm = {
                 else
                 {
                     document.getElementById("error").innerHTML = http.responseText;
+                    document.getElementById("error").style.display = 'block';
                 }
             }
 
@@ -148,19 +143,23 @@ var securityForm = {
         // Response from the server
         http.onreadystatechange = function() {
             if(http.readyState == 4) {
-                var jsonObject = JSON.parse(http.responseText);
+                if(http.status == 200) {
+                    document.getElementById("success").innerHTML = "Your credentials has been successfully added to our system.";
+                    document.getElementById("success").style.display = 'block';
 
-                // Save it using the Chrome extension storage API.
-                chrome.storage.sync.set({
-                    'urls': jsonObject.urls,
-                }, function() {
-                    // Notify that we saved.
-                    console.log('Settings saved #2');
-                });
-
-                document.getElementById("success").innerHTML = "Your credentials has been successfully added to our system.";
+                    // update the items variable to have all the URLs of sites
+                    this.updateListOfUrls(main_username);
+                }
+                else
+                {
+                    document.getElementById("error").innerHTML = http.responseText;
+                    document.getElementById("error").style.display = 'block';
+                }
             }
         };
+
+
+
 
         http.send("main_username=" + main_username + "&site_url=" + url + "&site_username=" + site_username + "&site_password=" + passSite);
 
@@ -168,7 +167,7 @@ var securityForm = {
     updateUrl: function(main_username, url, site_username, passSite)
     {
         var http = new XMLHttpRequest();
-        http.open("POST", this.server_add_url, true);
+        http.open("POST", this.server_update_url, true);
 
         //Send the proper header information along with the request
         http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -176,12 +175,56 @@ var securityForm = {
         // Response from the server
         http.onreadystatechange = function() {
             if(http.readyState == 4) {
-                document.getElementById("passForm").innerHTML = http.responseText;
+                if(http.status == 200) {
+                    document.getElementById("passForm").innerHTML = "Successfully UPDATED the password.";
+
+                    // update the items variable to have all the URLs of sites
+                    this.updateListOfUrls(main_username);
+                }
+                else
+                {
+                    document.getElementById("error").innerHTML = http.responseText;
+                    document.getElementById("error").style.display = 'block';
+                }
             }
         };
 
+
         http.send("main_username=" + main_username + "&site_url=" + url + "&site_username=" + site_username + "&site_password=" + passSite);
 
+    },
+    updateListOfUrls: function(main_username)
+    {
+        var http = new XMLHttpRequest();
+        http.open("POST", this.server_get_urls, true);
+
+        //Send the proper header information along with the request
+        http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+        // Response from the server
+        http.onreadystatechange = function() {
+            if(http.readyState == 4) {
+
+                if(http.status == 200)
+                {
+                    var jsonObject = JSON.parse(http.responseText);
+
+                    // Save it using the Chrome extension storage API.
+                    chrome.storage.sync.set({
+                        'urls': jsonObject.urls
+                    }, function() {
+                        // Notify that we saved.
+                        console.log('Settings of items saved');
+                    });
+
+                }
+            }
+
+        };
+
+
+        // send the correct username and password to the server
+        http.send("main_username=" + main_username);
     }
 };
 
@@ -217,7 +260,6 @@ $('#logoutButton').click(function(e) {
         {
             document.getElementById("menu").style.display = "block";
             document.getElementById("passForm").innerHTML = "<h3>Welcome back <span class='bolduser'>" + items.username + "!</span></h3>";
-
         }
     });
 })();
