@@ -162,7 +162,7 @@ router.post('/geturls', function (req, res, next) {
        else
        {
            res.setHeader('Content-Type', 'application/json');
-           res.send(JSON.stringify(result.urls));
+           res.send(JSON.stringify(result));
        }
     });
 
