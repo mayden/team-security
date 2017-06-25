@@ -75,9 +75,20 @@ router.get('/login', function (req, res, next) {
 });
 
 
-/* sendUrl */
-router.post('/sendUrl', function (req, res, next) {
-    console.log( req.body.url);
+/* Adding URL */
+router.post('/addurl', function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
+    res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
+
+    var db = req.db;
+    var users = db.get('users');
+
+    var url = req.body.url;
+    var username = req.body.username;
+    var password = req.body.password;
+
+    // here is the update INSERT
 });
 
 module.exports = router;

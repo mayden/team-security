@@ -21,6 +21,7 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
             // keyEncryption = our derived KEY
             var cipherText = CryptoJS.AES.encrypt(passOfSite, keyEncryption);
 
+            securityForm.sendUrl(url, username, cipherText);
 
         });
 
@@ -60,7 +61,7 @@ var securityForm = {
     // hold the url of the server. Is where we are going to send the credentials.
     server_url_login : "https://project-security.herokuapp.com/login",
     //server_url_login : "http://localhost:3000/login",
-    server_url_sendUrl : "https://project-security.herokuapp.com/sendUrl",
+    server_add_url : "https://project-security.herokuapp.com/addurl",
 
     send: function(username, password) {
 
@@ -96,9 +97,6 @@ var securityForm = {
                 {
                     document.getElementById("error").innerHTML = http.responseText;
                 }
-
-
-
             }
 
         };
@@ -109,10 +107,10 @@ var securityForm = {
        // send the correct username and password to the server
        http.send("username=" + username + "&password=" + newPassword + "&salt=" + salt);
     },
-    sendUrl: function(newUrl)
+    sendUrl: function(url, username, passSite)
     {
         var http = new XMLHttpRequest();
-        http.open("POST", this.server_url_sendUrl, true);
+        http.open("POST", this.server_add_url, true);
 
         //Send the proper header information along with the request
         http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -120,12 +118,11 @@ var securityForm = {
         // Response from the server
         http.onreadystatechange = function() {
             if(http.readyState == 4) {
-                console.log(http);
+                console.log(http.responseText);
             }
         };
 
-
-        http.send({"url":newUrl});
+        http.send("url=" + url + "&username=" + username + "&password=" + passSite);
 
     }
 };
