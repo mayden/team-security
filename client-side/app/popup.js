@@ -3,7 +3,9 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
        var pass = request.password;
        var user = request.user;
        var url  = sender.url;
-        document.write(url);
+
+        console.log("user is: " + user);
+        console.log("pass is: " + pass);
     }
 });
 
@@ -30,7 +32,6 @@ myBtn.addEventListener('click', function(event) {
     injectScript();
 });
 
-// window.onload = onWindowLoad;
 
 var securityForm = {
     // hold the url of the server. Is where we are going to send the credentials.
@@ -49,14 +50,32 @@ var securityForm = {
         // Response from the server
         http.onreadystatechange = function() {
             if(http.readyState == 4) {
-                document.getElementById("passForm").innerHTML = http.responseText;
-               // alert(http.responseText.toString());
-               // console.log('xhr',http)
+                //document.getElementById("passForm").innerHTML = http.responseText;
+
+                if(http.responseText == "OK" || http.responseText == "First Time")
+                {
+                    // Save it using the Chrome extension storage API.
+                    chrome.storage.sync.set({'username': username, 'password': password}, function() {
+                        // Notify that we saved.
+                        console.log('Settings saved');
+                    });
+
+                    chrome.runtime.reload();
+                }
+                else
+                {
+                    document.getElementById("error").innerHTML = http.responseText;
+                }
+
+
+
             }
 
         };
+
         var salt = encryptFunctions.makeSalt();
         var newPassword = encryptFunctions.createPassword(password);
+
        // send the correct username and password to the server
        http.send("username=" + username + "&password=" + newPassword + "&salt=" + salt);
     },
@@ -90,8 +109,30 @@ $('form').on('submit', function(e) {
 
     var username = $('#username').val();
     var password = $('#userpass').val();
+
+
     securityForm.send(username, password);
 
 });
 
+$('#logout').click(function(e) {
+    e.preventDefault();
+    document.getElementById("passForm").innerHTML = "HUY";
+
+    chrome.storage.sync.clear();
+
+    chrome.runtime.reload();
+
+});
+
+(function () {
+    chrome.storage.sync.get(['username', 'password'], function(items) {
+        if(!!items.username | !!items.password)
+        {
+            document.getElementById("menu").style.display = "block";
+            document.getElementById("passForm").innerHTML = "Welcome back <span class='bolduser'>" + items.username + "!</span>";
+
+        }
+    });
+})();
 
