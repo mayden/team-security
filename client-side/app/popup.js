@@ -59,6 +59,7 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
     }
 });
 
+
 function injectScript() {
     chrome.tabs.executeScript(null, {
         file: "js/myJS.js"
@@ -68,15 +69,31 @@ function injectScript() {
             message.innerText = 'There was an error injecting script : \n' + chrome.runtime.lastError.message;
         }
     });
-
 }
 
-//get a reference to the element
-var myBtn = document.getElementById('loginUpload');
+//get a reference to the element of saving the cred
+var saveCredButton = document.getElementById('saveCred');
 
 //add event listener
-myBtn.addEventListener('click', function(event) {
+saveCredButton.addEventListener('click', function(event) {
     injectScript();
+});
+
+//get a reference to the element of getting the cred
+var getCredButton = document.getElementById('getCred');
+
+//add event listener to get Credentials
+getCredButton.addEventListener('click', function(event) {
+    chrome.tabs.executeScript(null, { file: "js/crypto-js/crypto-js.js" }, function() {
+        chrome.tabs.executeScript(null, {
+            file: "js/ourJS.js"
+        }, function() {
+            // If you try and inject into an extensions page or the webstore/NTP you'll get an error
+            if (chrome.runtime.lastError) {
+                message.innerText = 'There was an error injecting script : \n' + chrome.runtime.lastError.message;
+                }
+            });
+    });
 });
 
 
