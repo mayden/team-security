@@ -231,6 +231,45 @@ var securityForm = {
 
         // send the correct username and password to the server
         http.send("main_username=" + main_username);
+    },
+    checkIfChangedUrls: function(main_username, storage_urls)
+    {
+        var http = new XMLHttpRequest();
+        http.open("POST", this.server_get_urls, true);
+
+        //Send the proper header information along with the request
+        http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+        // Response from the server
+        http.onreadystatechange = function() {
+            if(http.readyState == 4) {
+                if(http.status == 200)
+                {
+                    var urlsObject = JSON.parse(http.responseText);
+                    var server_urls = urlsObject[0].urls;
+
+                    if (server_urls.length != storage_urls.length) {
+                        document.getElementById("error").innerHTML = "Warning! Your credentials has been changed unexpected.";
+                        document.getElementById("error").style.display = 'block';
+                    }
+                    else
+                    {
+                        for (var i = 0; i < server_urls.length; i++) {
+                            if (storage_urls[i].site_password != server_urls[i].site_password) {
+                                document.getElementById("error").innerHTML = "Warning! Your credentials has been changed! <br />";
+                                document.getElementById("error").innerHTML += "The security leak is in: " + storage_urls[i].site_url;
+                                document.getElementById("error").style.display = 'block';
+                            }
+                        }
+                    }
+                    console.log("Meanwhile there isn't any security leaks..");
+                }
+            }
+        };
+
+
+        // send the correct username and password to the server
+        http.send("main_username=" + main_username);
     }
 };
 
@@ -262,11 +301,16 @@ $('#logoutButton').click(function(e) {
 
     chrome.storage.sync.get(['username','masterPassword', 'salt', 'urls'], function(items) {
 
+        // check if user has been logged to our system
         if(!!items.username | !!items.masterPassword)
         {
             document.getElementById("menu").style.display = "block";
             document.getElementById("passForm").innerHTML = "<h3>Welcome back <span class='bolduser'>" + items.username + "!</span></h3>";
         }
+
+        // check if one of the passwords has been changed. let's see...
+        securityForm.checkIfChangedUrls(items.username, items.urls);
+
     });
 })();
 
