@@ -220,6 +220,23 @@ var securityForm = {
                 {
                     var urlsObject = JSON.parse(http.responseText);
 
+                    //check if the password change in the server
+                    chrome.storage.sync.get(['username', 'masterPassword', 'salt', 'urls'], function (items) {
+                        console.log(urlsObject[0].urls);
+                        var url_server = urlsObject[0].urls;
+                        var url_store = items.urls;
+                        if (url_server.length != url_server.length) {
+                            alert("the user credentials changes");
+                        }
+                        else {
+                            for (var i = 0; i < url_server.length; i++) {
+                                if (url_store[i].site_password != url_server[i].site_password) {
+                                    alert("the user credentials changes");
+                                }
+                            }
+                        }
+                    });
+                    console.log("all the url's password have not change");
                         // Save it using the Chrome extension storage API.
                         chrome.storage.sync.set({'urls': urlsObject[0].urls}, function() {
                             console.log('Save the URLS!');
@@ -267,6 +284,8 @@ $('#logoutButton').click(function(e) {
             document.getElementById("menu").style.display = "block";
             document.getElementById("passForm").innerHTML = "<h3>Welcome back <span class='bolduser'>" + items.username + "!</span></h3>";
         }
+        securityForm.updateListOfUrls(items.username);
     });
+
 })();
 
