@@ -16,12 +16,12 @@ Once the user downloaded the app, he registers as a new user with username and p
 After that, the user connects to the server via the plugin.  <br />
 Each password file is stored in a different collection on the server  <br />
 Meanwhile, the password is displayed in site (if stored), otherwise asks user to store if after login. (if password are not equal - asks for update)
-
+ <br /> <br />
 ## Contributors
 Alex Lavrentev <br />
 Bella Gandin <br />
 Maor Amsalem <br />
-
+ <br /> <br />
 ## Details
 Instructor: Itai Dinur <br />
 Mini Project, Spring 2017
