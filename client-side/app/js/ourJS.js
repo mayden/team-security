@@ -4,7 +4,8 @@ chrome.storage.sync.get(['username', 'masterPassword', 'salt','urls'], function 
         var password = '';
         var username = '';
         for (var i = 0; i < items.urls.length; i++) {
-            if (window.location.href === items.urls[i].site_url) {
+
+            if (window.location.href === items.urls[i].site_url || document.location.origin == items.urls[i].site_url || document.location.origin + "/" == items.urls[i].site_url) {
                 username = items.urls[i].site_username;
 
                 //Decrypt
