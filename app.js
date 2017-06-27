@@ -10,8 +10,8 @@ var monk = require('monk');
 var index = require('./routes/index');
 
 // Connection URL. This is where your mongodb server is running.
-var url = 'mongodb://manager:1234@ds139801.mlab.com:39801/heroku_5277wf1z';
-var db = monk(url);
+var url = ''; // url of the MONGODB
+var db = monk(MONGODB_URI);
 
 var app = express();
 
