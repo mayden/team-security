@@ -18,10 +18,10 @@ chrome.storage.sync.get(['username', 'masterPassword', 'salt','urls'], function 
         }
         document.querySelectorAll('input[type=password]')[0].value = password;
 
-        if (typeof document.querySelectorAll('input[type=text]')[0] !== 'undefined') {
-            document.querySelectorAll('input[type=text]')[0].value = username;
-        }
-        else if (typeof document.querySelectorAll('input[type=email]')[0] !== 'undefined') {
+        if (typeof document.querySelectorAll('input[type=email]')[0] !== 'undefined') {
             document.querySelectorAll('input[type=email]')[0].value = username;
+        }
+        else if (typeof document.querySelectorAll('input[type=text]')[0] !== 'undefined') {
+            document.querySelectorAll('input[type=text]')[0].value = username;
         }
     });
